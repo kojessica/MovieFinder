@@ -13,7 +13,7 @@
 #import "Movie.h"
 
 @interface MoviesHomeViewController ()
-
+@property (weak, nonatomic) IBOutlet UIView *networkError;
 @property (weak, nonatomic) IBOutlet UITableView *movietable;
 @property (strong, nonatomic) NSArray *movies;
 - (void)fetchMovies;
@@ -37,6 +37,7 @@
     // Do any additional setup after loading the view from its nib.
     
     self.navigationItem.title = @"movies";
+    self.networkError.alpha = 0.0f;
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"." style:UIBarButtonItemStylePlain target:self action:@selector(onSearchButton)];
 
@@ -68,9 +69,16 @@
         [self.movietable reloadData];
         NSLog(@"%@", self.movies);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
-        NSLog(@"Request Failed: %@, %@", error, error.userInfo);
-        
+        [UIView animateWithDuration:0.7 animations:^{
+            self.networkError.frame =  CGRectMake(0, 0, 320, 120);
+            self.networkError.alpha = 1.0f;
+        } completion:^(BOOL finished) {
+            UILabel *errormsg = [[UILabel alloc] initWithFrame:CGRectMake(110, 32, 320, 120)];
+            [errormsg setFont:[UIFont fontWithName: @"ProximaNovaSemiBold" size: 16]];
+            [errormsg setTextColor:[UIColor whiteColor]];
+            errormsg.text = @"Network Error";
+            [self.networkError addSubview:errormsg];
+        }];
     }];
     [operation start];
 }
