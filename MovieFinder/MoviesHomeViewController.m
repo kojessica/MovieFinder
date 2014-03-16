@@ -11,6 +11,7 @@
 #import "MovieCell.h"
 #import "AFNetworking.h"
 #import "Movie.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface MoviesHomeViewController ()
 @property (weak, nonatomic) IBOutlet UIView *networkError;
@@ -43,6 +44,14 @@
 
     self.movies = [[NSArray alloc] init];
     [self fetchMovies];
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    [self.movietable addSubview:refreshControl];
+}
+
+- (void)refresh:(UIRefreshControl *)refreshControl {
+    [refreshControl endRefreshing];
 }
 
 - (void)fetchMovies
@@ -57,6 +66,7 @@
         [self.movietable reloadData];
     }];*/
     
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     NSURL *url = [NSURL URLWithString:@"http://api.rottentomatoes.com/api/public/v1.0/lists/dvds/top_rentals.json?apikey=g9au4hv6khv6wzvzgt55gpqs"];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -65,6 +75,7 @@
     
     operation.responseSerializer = [AFJSONResponseSerializer serializer];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.movies = [Movie moviesWithArray:[responseObject objectForKey:@"movies"]];
         [self.movietable reloadData];
         NSLog(@"%@", self.movies);

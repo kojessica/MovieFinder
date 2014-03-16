@@ -8,9 +8,10 @@
 
 #import "MovieDetailViewController.h"
 #import "Movie.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface MovieDetailViewController ()
-
+@property (strong, nonatomic) UIImageView *movieImage;
 @end
 
 @implementation MovieDetailViewController
@@ -24,6 +25,17 @@
     return self;
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    NSDictionary *poster = self.movieDetail.poster;
+    NSString *thumbnail = [poster objectForKey:@"detailed"];
+    NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:thumbnail]];
+    UIImage *image = [[UIImage alloc] initWithData:imageData];
+    self.movieImage.frame = CGRectMake(0, 30, 330, image.size.height/image.size.width*300);
+    self.movieImage.image = image;
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -32,19 +44,14 @@
     self.navigationItem.title = self.movieDetail.title;
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
     self.navigationItem.backBarButtonItem = backButton;
-    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self showDetail];
 }
 
 - (void)showDetail
 {
-    NSDictionary *poster = self.movieDetail.poster;
-    NSString *thumbnail = [poster objectForKey:@"original"];
-    NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:thumbnail]];
-    UIImage *image = [[UIImage alloc] initWithData:imageData];
-    UIImageView *movieImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 30, 330, image.size.height/image.size.width*300)];
-    movieImage.image = image;
-    [self.view addSubview:movieImage];
+    self.movieImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 30, 330, 0)];
+    [self.view addSubview:self.movieImage];
     
     UIView *transparent = [[UIView alloc] initWithFrame:CGRectMake(0, 300, 330, 1000)];
     transparent.layer.opacity = 0.9f;
