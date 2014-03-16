@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		126C0BF118D5579200F5C7BE /* MovieCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 126C0BF018D5579200F5C7BE /* MovieCell.m */; };
+		126C0BF418D568F600F5C7BE /* Movie.m in Sources */ = {isa = PBXBuildFile; fileRef = 126C0BF318D568F600F5C7BE /* Movie.m */; };
 		128711DA18D229C300D81AA1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 128711D918D229C300D81AA1 /* Foundation.framework */; };
 		128711DC18D229C300D81AA1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 128711DB18D229C300D81AA1 /* CoreGraphics.framework */; };
 		128711DE18D229C300D81AA1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 128711DD18D229C300D81AA1 /* UIKit.framework */; };
@@ -43,6 +44,8 @@
 		03DAA79EB7DE40C8B82B97C0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		126C0BEF18D5579200F5C7BE /* MovieCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieCell.h; sourceTree = "<group>"; };
 		126C0BF018D5579200F5C7BE /* MovieCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieCell.m; sourceTree = "<group>"; };
+		126C0BF218D568F600F5C7BE /* Movie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Movie.h; sourceTree = "<group>"; };
+		126C0BF318D568F600F5C7BE /* Movie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Movie.m; sourceTree = "<group>"; };
 		128711D618D229C300D81AA1 /* MovieFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		128711D918D229C300D81AA1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		128711DB18D229C300D81AA1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -95,6 +98,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		126C0BF518D5691200F5C7BE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				126C0BF218D568F600F5C7BE /* Movie.h */,
+				126C0BF318D568F600F5C7BE /* Movie.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		126C0BF618D5692A00F5C7BE /* CustomCell */ = {
+			isa = PBXGroup;
+			children = (
+				126C0BEF18D5579200F5C7BE /* MovieCell.h */,
+				126C0BF018D5579200F5C7BE /* MovieCell.m */,
+			);
+			name = CustomCell;
+			sourceTree = "<group>";
+		};
 		128711CD18D229C300D81AA1 = {
 			isa = PBXGroup;
 			children = (
@@ -130,6 +151,8 @@
 		128711DF18D229C300D81AA1 /* MovieFinder */ = {
 			isa = PBXGroup;
 			children = (
+				126C0BF518D5691200F5C7BE /* Model */,
+				126C0BF618D5692A00F5C7BE /* CustomCell */,
 				1287120D18D22AA100D81AA1 /* Controllers */,
 				1287121118D2389300D81AA1 /* ProximaNovaRegular.otf */,
 				1287121218D2389300D81AA1 /* ProximaNovaSemibold.otf */,
@@ -179,8 +202,6 @@
 				1287120818D22A7F00D81AA1 /* MoviesHomeViewController.h */,
 				1287120918D22A7F00D81AA1 /* MoviesHomeViewController.m */,
 				1287120A18D22A7F00D81AA1 /* MoviesHomeViewController.xib */,
-				126C0BEF18D5579200F5C7BE /* MovieCell.h */,
-				126C0BF018D5579200F5C7BE /* MovieCell.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -319,6 +340,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				126C0BF418D568F600F5C7BE /* Movie.m in Sources */,
 				1287121A18D2806F00D81AA1 /* MoviesHomeViewController.m in Sources */,
 				126C0BF118D5579200F5C7BE /* MovieCell.m in Sources */,
 				1287121618D2458600D81AA1 /* MovieDetailViewController.m in Sources */,

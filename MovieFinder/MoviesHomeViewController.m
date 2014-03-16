@@ -10,6 +10,7 @@
 #import "MovieDetailViewController.h"
 #import "MovieCell.h"
 #import "AFNetworking.h"
+#import "Movie.h"
 
 @interface MoviesHomeViewController ()
 
@@ -63,7 +64,7 @@
     
     operation.responseSerializer = [AFJSONResponseSerializer serializer];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        self.movies = [responseObject objectForKey:@"movies"];
+        self.movies = [Movie moviesWithArray:[responseObject objectForKey:@"movies"]];
         [self.movietable reloadData];
         NSLog(@"%@", self.movies);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -104,21 +105,11 @@
         cell = [[MovieCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"MovieCell"];
     }
     
-    NSDictionary *tempDictionary = [self.movies objectAtIndex:indexPath.row];
-    cell.title.text = [tempDictionary objectForKey:@"title"];
-    cell.desc.text = [tempDictionary objectForKey:@"synopsis"];
-    NSArray *castArray = [tempDictionary objectForKey:@"abridged_cast"];
-    NSMutableArray *castMutArray = [[NSMutableArray alloc] init];
-    for (NSDictionary *cast in castArray) {
-        [castMutArray addObject:[cast objectForKey:@"name"]];
-    }
-    NSString *castString = [castMutArray componentsJoinedByString:@", "];
-    cell.cast.text = castString;
- 
-    NSString *thumbnail = [[tempDictionary objectForKey:@"posters"] objectForKey:@"thumbnail"];
-    NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:thumbnail]];
-    UIImage *image = [[UIImage alloc] initWithData:imageData];
-    cell.imageView.image = image;
+    Movie *movie = [self.movies objectAtIndex:indexPath.row];
+    cell.title.text = movie.title;
+    cell.desc.text = movie.synopsis;
+    cell.cast.text = movie.cast;
+    cell.imageView.image = movie.image;
     
     [cell setBackgroundColor:[UIColor clearColor]];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;

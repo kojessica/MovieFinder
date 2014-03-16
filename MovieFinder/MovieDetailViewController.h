@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Movie.h"
 
 @interface MovieDetailViewController : UIViewController
 
-@property (strong, nonatomic) NSDictionary *movieDetail;
+@property (strong, nonatomic) Movie *movieDetail;
 
 @end

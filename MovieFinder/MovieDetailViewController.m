@@ -7,6 +7,7 @@
 //
 
 #import "MovieDetailViewController.h"
+#import "Movie.h"
 
 @interface MovieDetailViewController ()
 
@@ -28,7 +29,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    self.navigationItem.title = [self.movieDetail objectForKey:@"title"];
+    self.navigationItem.title = self.movieDetail.title;
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
     self.navigationItem.backBarButtonItem = backButton;
     
@@ -37,7 +38,7 @@
 
 - (void)showDetail
 {
-    NSDictionary *poster = [self.movieDetail objectForKey:@"posters"];
+    NSDictionary *poster = self.movieDetail.poster;
     NSString *thumbnail = [poster objectForKey:@"original"];
     NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:thumbnail]];
     UIImage *image = [[UIImage alloc] initWithData:imageData];
@@ -51,7 +52,7 @@
     [self.view addSubview:transparent];
     
     UILabel *summary = [[UILabel alloc] initWithFrame:CGRectMake(15, 350, 300, 20)];
-    summary.text = [self.movieDetail objectForKey:@"synopsis"];
+    summary.text = self.movieDetail.synopsis;
     
     UILabel *summaryTitle = [[UILabel alloc] initWithFrame:CGRectMake(15, 320, 300, 20)];
     summaryTitle.text = @"Summary";
@@ -59,14 +60,9 @@
     UILabel *castTitle = [[UILabel alloc] initWithFrame:CGRectMake(15, 440, 300, 20)];
     castTitle.text = @"Cast";
     
-    NSArray *castArray = [self.movieDetail objectForKey:@"abridged_cast"];
-    NSMutableArray *castMutArray = [[NSMutableArray alloc] init];
-    for (NSDictionary *cast in castArray) {
-        [castMutArray addObject:[cast objectForKey:@"name"]];
-    }
-    NSString *castString = [castMutArray componentsJoinedByString:@", "];
     UILabel *cast = [[UILabel alloc] initWithFrame:CGRectMake(15, 470, 300, 20)];
-    cast.text = castString;
+    cast.text = self.movieDetail.cast;
+    
     [summary setFont:[UIFont fontWithName: @"ProximaNovaRegular" size: 12]];
     [summary setNumberOfLines:5];
     [summary sizeToFit];
