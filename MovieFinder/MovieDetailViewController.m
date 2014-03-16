@@ -27,6 +27,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    self.navigationItem.title = [self.movieDetail objectForKey:@"title"];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
+    self.navigationItem.backBarButtonItem = backButton;
 }
 
 - (void)didReceiveMemoryWarning

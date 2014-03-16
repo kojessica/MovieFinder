@@ -7,14 +7,26 @@
 //
 
 #import "AppDelegate.h"
+#import "MoviesHomeViewController.h"
+#import "MovieDetailViewController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
+
+    MoviesHomeViewController *movies = [[MoviesHomeViewController alloc] init];
+    self.window.rootViewController = movies;
+
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:movies];
+    UIFont *customFont = [UIFont fontWithName:@"ProximaNovaSemiBold" size:20];
+    
+    nav.navigationBar.barTintColor = [UIColor colorWithRed:231/255.0 green:80/255.0 blue:68/255.0 alpha:1.0];
+    nav.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName,  customFont, NSFontAttributeName, nil];
+    
+    self.window.rootViewController = nav;
+    self.window.backgroundColor = [UIColor colorWithRed:250/255.0 green:250/255.0 blue:250/255.0 alpha:1.0];
     [self.window makeKeyAndVisible];
     return YES;
 }
