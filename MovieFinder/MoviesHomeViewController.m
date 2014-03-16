@@ -11,7 +11,8 @@
 #import "MovieCell.h"
 #import "AFNetworking.h"
 #import "Movie.h"
-#import <MBProgressHUD/MBProgressHUD.h>
+#import "MBProgressHUD/MBProgressHUD.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface MoviesHomeViewController ()
 @property (weak, nonatomic) IBOutlet UIView *networkError;
@@ -128,7 +129,8 @@
     cell.title.text = movie.title;
     cell.desc.text = movie.synopsis;
     cell.cast.text = movie.cast;
-    cell.imageView.image = movie.image;
+    NSURL *url = [NSURL URLWithString:movie.imageurl];
+    [cell.imageView setImageWithURL:url];
     
     [cell setBackgroundColor:[UIColor clearColor]];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;

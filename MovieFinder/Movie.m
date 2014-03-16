@@ -21,9 +21,9 @@
             [castMutArray addObject:[cast objectForKey:@"name"]];
         }
         self.cast = [castMutArray componentsJoinedByString:@", "];
-        
-        NSString *thumbnail = [movie[@"posters"] objectForKey:@"thumbnail"];        
-        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:thumbnail]];
+                      
+        self.imageurl = [movie[@"posters"] objectForKey:@"thumbnail"];
+        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.imageurl]];
         UIImage *image = [[UIImage alloc] initWithData:imageData];
         self.image = image;
         
