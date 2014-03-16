@@ -8,6 +8,7 @@
 
 #import "MoviesHomeViewController.h"
 #import "MovieDetailViewController.h"
+#import "MovieCell.h"
 #import "AFNetworking.h"
 
 @interface MoviesHomeViewController ()
@@ -97,81 +98,31 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    UILabel *title;
-    UILabel *desc;
-    UILabel *cast;
-    NSDictionary *tempDictionary;
-    UIView *whiteRoundedCornerView;
+    MovieCell *cell = (MovieCell *)[tableView dequeueReusableCellWithIdentifier:@"MovieCell"];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-        cell.contentView.backgroundColor = [UIColor clearColor];
-        
-        whiteRoundedCornerView = [[UIView alloc] initWithFrame:CGRectMake(10,-5,300,120)];
-        whiteRoundedCornerView.backgroundColor = [UIColor whiteColor];
-        whiteRoundedCornerView.layer.masksToBounds = NO;
-        whiteRoundedCornerView.layer.cornerRadius = 4.0;
-        whiteRoundedCornerView.layer.shadowOffset = CGSizeMake(0, 0);
-        whiteRoundedCornerView.layer.shadowOpacity = 0.1;
-        whiteRoundedCornerView.layer.shadowRadius = 0;
-        whiteRoundedCornerView.layer.borderWidth = 1;
-
-        whiteRoundedCornerView.layer.borderColor = [[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1.0] CGColor];
-        whiteRoundedCornerView.layer.shadowColor =  [[UIColor blackColor] CGColor];
-
-        title = [[UILabel alloc] initWithFrame:CGRectMake(90, 19, 190, 20)];
-        [title setFont:[UIFont fontWithName: @"ProximaNovaRegular" size: 14]];
-        //[title setText:[tempDictionary objectForKey:@"title"]];
-        [whiteRoundedCornerView addSubview:title];
-
-        desc = [[UILabel alloc] initWithFrame:CGRectMake(90, 28, 190, 70)];
-        [desc setFont:[UIFont fontWithName: @"ProximaNovaRegular" size: 11]];
-        //[desc setText:[tempDictionary objectForKey:@"synopsis"]];
-        [desc setNumberOfLines:3];
-        [whiteRoundedCornerView addSubview:desc];
-
-        cast = [[UILabel alloc] initWithFrame:CGRectMake(90, 83, 190, 20)];
-        [cast setFont:[UIFont fontWithName: @"ProximaNovaRegular" size: 11]];
-        [cast setFont:[UIFont italicSystemFontOfSize:11]];
-        //[cast setText:castString];
-        [cast setTextColor:[UIColor colorWithRed:170/255 green:170/255 blue:170/255 alpha:1]];
-        [cast setNumberOfLines:10];
-        [whiteRoundedCornerView addSubview:cast];
-
-        cell.layer.borderWidth = 0;
-        [cell.contentView addSubview:whiteRoundedCornerView];
-        [cell.contentView sendSubviewToBack:whiteRoundedCornerView];
-        [cell setBackgroundColor:[UIColor clearColor]];
-        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        
-        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        cell = [[MovieCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"MovieCell"];
     }
     
-    //set title, synopsis, cast, and title
-    tempDictionary= [self.movies objectAtIndex:indexPath.row];
-    title.text = [NSString stringWithFormat:@"%d", indexPath.row];
-    desc.text = [tempDictionary objectForKey:@"synopsis"];
-    
+    NSDictionary *tempDictionary = [self.movies objectAtIndex:indexPath.row];
+    cell.title.text = [tempDictionary objectForKey:@"title"];
+    cell.desc.text = [tempDictionary objectForKey:@"synopsis"];
     NSArray *castArray = [tempDictionary objectForKey:@"abridged_cast"];
     NSMutableArray *castMutArray = [[NSMutableArray alloc] init];
     for (NSDictionary *cast in castArray) {
         [castMutArray addObject:[cast objectForKey:@"name"]];
     }
     NSString *castString = [castMutArray componentsJoinedByString:@", "];
-    cast.text = castString;
-    
-    NSDictionary *poster = [tempDictionary objectForKey:@"posters"];
-    NSString *thumbnail = [poster objectForKey:@"thumbnail"];
+    cell.cast.text = castString;
+ 
+    NSString *thumbnail = [[tempDictionary objectForKey:@"posters"] objectForKey:@"thumbnail"];
     NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:thumbnail]];
-    UIView *imageWrapper = [[UIView alloc] initWithFrame:CGRectMake(15, 15, 52, 110)];
     UIImage *image = [[UIImage alloc] initWithData:imageData];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-    [imageWrapper addSubview:imageView];
-    [whiteRoundedCornerView addSubview:imageWrapper];
+    cell.imageView.image = image;
     
-    NSLog(@"%@", [tempDictionary objectForKey:@"title"]);
+    [cell setBackgroundColor:[UIColor clearColor]];
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
     return cell;
 }

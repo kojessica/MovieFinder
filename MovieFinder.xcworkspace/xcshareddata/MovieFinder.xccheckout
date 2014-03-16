@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>4371FF29-1B63-43C0-A4BF-CA601CA39593</string>
+	<key>IDESourceControlProjectName</key>
+	<string>MovieFinder</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>3FAC3E98-735D-4C25-B89C-60E638E6B42D</key>
+		<string>https://github.com/kojessica/MovieFinder.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>MovieFinder.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>3FAC3E98-735D-4C25-B89C-60E638E6B42D</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/kojessica/MovieFinder.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>3FAC3E98-735D-4C25-B89C-60E638E6B42D</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>3FAC3E98-735D-4C25-B89C-60E638E6B42D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>MovieFinder</string>
+		</dict>
+	</array>
+</dict>
+</plist>
