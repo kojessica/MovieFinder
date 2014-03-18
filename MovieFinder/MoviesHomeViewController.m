@@ -15,11 +15,12 @@
 #import "UIImageView+AFNetworking.h"
 
 @interface MoviesHomeViewController ()
-@property (weak, nonatomic) IBOutlet UIView *networkError;
 @property (weak, nonatomic) IBOutlet UITableView *movietable;
 @property (strong, nonatomic) NSArray *movies;
 - (void)fetchMovies;
 - (void)onSearchButton;
+@property (strong, nonatomic) UIView *networkError;
+@property (strong, nonatomic) UILabel *errorMsg;
 @end
 
 @implementation MoviesHomeViewController
@@ -39,11 +40,20 @@
     // Do any additional setup after loading the view from its nib.
     
     self.navigationItem.title = @"movies";
-    self.networkError.alpha = 0.0f;
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"." style:UIBarButtonItemStylePlain target:self action:@selector(onSearchButton)];
 
     self.movies = [[NSArray alloc] init];
+
+    self.networkError = [[UIView alloc] initWithFrame:CGRectMake(0, -120, 320, 50)];
+    self.networkError.backgroundColor = [UIColor colorWithRed:50/255.0 green:56/255.0 blue:66/255.0 alpha:1.0];
+    
+    self.errorMsg = [[UILabel alloc] initWithFrame:CGRectMake(110, -120, 320, 50)];
+    [self.errorMsg setFont:[UIFont fontWithName: @"ProximaNovaSemiBold" size: 16]];
+    [self.errorMsg setTextColor:[UIColor whiteColor]];
+    self.errorMsg.text = @"Network error";
+    
+    
     [self fetchMovies];
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
@@ -53,20 +63,11 @@
 
 - (void)refresh:(UIRefreshControl *)refreshControl {
     [refreshControl endRefreshing];
+    [self fetchMovies];
 }
 
 - (void)fetchMovies
 {
-    /*NSString *url = @"http://api.rottentomatoes.com/api/public/v1.0/lists/dvds/top_rentals.json?apikey=g9au4hv6khv6wzvzgt55gpqs";
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        id object = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        NSLog(@"%@", object);
-
-        self.movies = [object objectForKey:@"movies"];
-        [self.movietable reloadData];
-    }];*/
-    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     NSURL *url = [NSURL URLWithString:@"http://api.rottentomatoes.com/api/public/v1.0/lists/dvds/top_rentals.json?apikey=g9au4hv6khv6wzvzgt55gpqs"];
     
@@ -74,23 +75,34 @@
     //AFNetworking asynchronous url request
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     
+    [self.movietable addSubview:self.networkError];
+    [self.movietable addSubview:self.errorMsg];
+    
     operation.responseSerializer = [AFJSONResponseSerializer serializer];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.movies = [Movie moviesWithArray:[responseObject objectForKey:@"movies"]];
         [self.movietable reloadData];
+        
+        [self.networkError setAlpha:0.0f];
+        [self.errorMsg setAlpha:0.0f];
+        [self.networkError setHidden:YES];
+        [self.errorMsg setHidden:YES];
+        
         NSLog(@"%@", self.movies);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
         [UIView animateWithDuration:0.7 animations:^{
-            self.networkError.frame =  CGRectMake(0, 0, 320, 120);
-            self.networkError.alpha = 1.0f;
+            self.networkError.frame =  CGRectMake(0, -10, 320, 50);
+            self.errorMsg.frame = CGRectMake(110, -10, 320, 50);
+            [self.networkError setAlpha:1.0f];
+            [self.errorMsg setAlpha:1.0f];
         } completion:^(BOOL finished) {
-            UILabel *errormsg = [[UILabel alloc] initWithFrame:CGRectMake(110, 32, 320, 120)];
-            [errormsg setFont:[UIFont fontWithName: @"ProximaNovaSemiBold" size: 16]];
-            [errormsg setTextColor:[UIColor whiteColor]];
-            errormsg.text = @"Network Error";
-            [self.networkError addSubview:errormsg];
+            [self.networkError setHidden:NO];
+            [self.errorMsg setHidden:NO];
         }];
+        NSLog(@"%@", @"Failed");
     }];
     [operation start];
 }
@@ -140,7 +152,6 @@
 }
 
 - (void)onSearchButton {
-    //[self.navigationController pushViewController:[[MovieDetailViewController alloc] init] animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
